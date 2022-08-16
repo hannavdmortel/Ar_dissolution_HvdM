@@ -23,3 +23,6 @@ There are three main folders:
  
  
 *For any questions contact vandemortel.hanna@gmail.com.*
+
+
+[![DOI](https://zenodo.org/badge/515236707.svg)](https://zenodo.org/badge/latestdoi/515236707)
