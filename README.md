@@ -1,5 +1,7 @@
 # Ar_dissolution_HvdM
 
+[![DOI](https://zenodo.org/badge/515236707.svg)](https://zenodo.org/badge/latestdoi/515236707)
+
 This repository includes the raw data and scripts used to analyze and plot this data for the study:
  
 ### 'Laboratory Observation of the Galvanizing Effect of Aragonite Dissolution at the Seafloor'
@@ -23,6 +25,3 @@ There are three main folders:
  
  
 *For any questions contact vandemortel.hanna@gmail.com.*
-
-
-[![DOI](https://zenodo.org/badge/515236707.svg)](https://zenodo.org/badge/latestdoi/515236707)
