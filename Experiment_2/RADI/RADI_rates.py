@@ -2,7 +2,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import matplotlib.ticker as ticker
 
-filepath = "C:/Users/hanna/Documents/GitHub/Ar_dissolution_HvdM/Experiment_1/RADI"
+filepath = "C:/Users/hanna/Documents/GitHub/Ar_dissolution_HvdM/Experiment_2/RADI"
 
 #%% 
 

@@ -79,7 +79,8 @@ RDR0_ = pyco2.sys(**parms,
     uncertainty_from={
         "par1": 5, #umol/kg
         "par2": 0.005, 
-        "temperature": 0.05 #guess
+        "temperature": 0.05, #guess
+        **pyco2.uncertainty_OEDG18
     }    
     ) 
 
@@ -94,7 +95,8 @@ RDR_one = pyco2.sys(**parms,
     uncertainty_from={
         "par1": 5.4, #umol/kg
         "par2": 0.0147, #sqrt(0.006 (from tris)**2 + average error water column**2)
-        "temperature": 0.05 #guess
+        "temperature": 0.05, #guess
+        **pyco2.uncertainty_OEDG18
     }    
     ) 
 
@@ -109,7 +111,8 @@ RDR_two = pyco2.sys(**parms,
     uncertainty_from={
         "par1": 5.4, #umol/kg
         "par2": 0.0150, #sqrt(0.006 (from tris)**2 + average error water column**2)
-        "temperature": 0.05 #guess
+        "temperature": 0.05, #guess
+        **pyco2.uncertainty_OEDG18
     }    
     )
 
@@ -124,7 +127,8 @@ RDR_three = pyco2.sys(**parms,
     uncertainty_from={
         "par1": 5.4, #umol/kg
         "par2": 0.0144, #sqrt(0.006 (from tris)**2 + average error water column**2)
-        "temperature": 0.05 #guess
+        "temperature": 0.05, #guess
+        **pyco2.uncertainty_OEDG18
     }    
     )
 
@@ -161,23 +165,26 @@ x_err2 = [RDR_one['u_saturation_aragonite'],
          RDR_three['u_saturation_aragonite']]
 
 #Plot scatter points
-ax1.scatter(x=sat_states, y=rates, c='none', zorder=2)
 ax2 = ax1.twiny()
 ax2.scatter(x=sat_states2, y=rates, c=colors, zorder=2)
 
 #Add error bars
-ax1.errorbar(x=sat_states, y=rates, yerr=y_err, ecolor=colors, linestyle='--', c='grey', zorder=1)
-ax1.errorbar(x=sat_states, y=rates, xerr=x_err, ecolor=colors, linestyle='--', c='grey', zorder=1)
+# ax1.errorbar(x=sat_states, y=rates, yerr=y_err, ecolor=colors, c='none', zorder=1)
+# ax1.errorbar(x=sat_states, y=rates, xerr=x_err, ecolor=colors,  c='none', zorder=1)
 
-ax2.errorbar(x=sat_states2, y=rates, yerr=y_err, ecolor=colors, linestyle='--', c='grey', zorder=1)
-ax2.errorbar(x=sat_states2, y=rates, xerr=x_err2, ecolor=colors, linestyle='--', c='grey', zorder=1)
+ax2.errorbar(x=sat_states2, y=rates, yerr=y_err, ecolor=colors, c='none', zorder=1)
+ax2.errorbar(x=sat_states2, y=rates, xerr=x_err2, ecolor=colors, c='none', zorder=1)
 
 #Fill between
-ytop = [(rates[0]+y_err[0]), (rates[1]+y_err[1]), (rates[2]+y_err[2])]
-ybottom = [(rates[0]-y_err[0]), (rates[1]-y_err[1]), (rates[2]-y_err[2])]
-ax1.fill_between(x=sat_states, y1=ytop, y2=ybottom, color='grey', edgecolor='none', alpha=0.15)
+# ytop = [(rates[0]+y_err[0]), (rates[1]+y_err[1]), (rates[2]+y_err[2])]
+# ybottom = [(rates[0]-y_err[0]), (rates[1]-y_err[1]), (rates[2]-y_err[2])]
+# ax1.fill_between(x=sat_states, y1=ytop, y2=ybottom, color='grey', edgecolor='none', alpha=0.15)
 
 ax1.grid(alpha=0.3, which='both', zorder=0)
+
+#Add calcite dissolution rate law from Naviaux 2019
+sat_ca = np.linspace(0.25, 0.8, 20)
+ax1.plot(sat_ca, (10**(-10.8)*sat_ca**4.7*3.6e13))
 
 #Labels
 labels = ['RDR1', 'RDR2', 'RDR3']
@@ -187,13 +194,13 @@ ax1.text(sat_states[2]+0.014, rates[2]+2, labels[2], fontsize=6, bbox=dict(facec
 
 ax1.set_xlabel(r'$(1-Ω_{ca})$')
 ax2.set_xlabel(r'$(1-Ω_{ar})$')
-
 ax1.set_ylabel('Dissolution rate ($μmol$ $m^{-2}$ $hr^{-1}$)', va='center', rotation='vertical')
 
 ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
 ax1.yaxis.set_minor_locator(AutoMinorLocator(5))
-
 ax2.xaxis.set_minor_locator(AutoMinorLocator(4))
+
+ax1.set_ylim(10, 150)
 
 plt.tight_layout()
 plt.savefig("Figures/rate_vs_omega.png")

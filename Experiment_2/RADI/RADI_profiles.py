@@ -6,7 +6,7 @@ import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
 import numpy as np
 
-filepath = "C:/Users/hanna/Documents/GitHub/Ar_dissolution_HvdM/Experiment_1/RADI"
+filepath = "C:/Users/hanna/Documents/GitHub/Ar_dissolution_HvdM/Experiment_2/RADI"
 
 #%% 
 
@@ -20,11 +20,14 @@ B_set = []
 for i in range(0, 7):
     B_set.append(pd.read_excel(filepath + "/RADI_results.xlsx",
                           header=0, sheet_name='Cuvette B'))
+for i in range(0, 7):
+    A_set[i]['Depth (cm)'] = A_set[i]['Depth (cm)']*-1
+    B_set[i]['Depth (cm)'] = B_set[i]['Depth (cm)']*-1
 
 #%% Creating plot
-fig, (ax) = plt.subplots(3, 2,
+fig, ax = plt.subplots(3, 2,
                                dpi=300, 
-                               figsize=(5, 12))
+                               figsize=(5, 14.5))
 
 #List colours for plot
 colors = ['xkcd:bright lavender',
@@ -67,35 +70,35 @@ for i in range(0, 7):
     ax[2,1].plot('Ar_prod.{}'.format(times[i]), 'Depth (cm)', data = B_set[i],
                  c=colors[i], label=labels[i], alpha=0.9, lw=1.5, linestyle=':', zorder=10)   
 #Add baselines
-    ax[0,0].vlines(x=7.4, ymin=-3.25, ymax=1.2, color='grey', linestyle='--', alpha=0.8)
-    ax[0,1].vlines(x=7.4, ymin=-3.25, ymax=1.2, color='grey', linestyle='--', alpha=0.8)
-    ax[1,0].vlines(x=0.31, ymin=-3.25, ymax=1.2, color='grey', linestyle='--', alpha=0.8)
-    ax[1,1].vlines(x=0.31, ymin=-3.25, ymax=1.2, color='grey', linestyle='--', alpha=0.8)
+    ax[0,0].vlines(x=7.4, ymin=3.25, ymax=-1.2, color='grey', linestyle='--', alpha=0.8)
+    ax[0,1].vlines(x=7.4, ymin=3.25, ymax=-1.2, color='grey', linestyle='--', alpha=0.8)
+    ax[1,0].vlines(x=0.31, ymin=3.25, ymax=-1.2, color='grey', linestyle='--', alpha=0.8)
+    ax[1,1].vlines(x=0.31, ymin=3.25, ymax=-1.2, color='grey', linestyle='--', alpha=0.8)
 
 #%%
 #Adding sediment and pteropod shading    
-ax[0,0].axhspan(0, -2.9, color='xkcd:sand', alpha=0.15, lw=0)
+ax[0,0].axhspan(0, 2.9, color='xkcd:sand', alpha=0.15, lw=0)
 ax[0,0].axhline(y=0, color='black', linewidth=0.5, linestyle='--', alpha=0.4)
-ax[0,0].axhline(y=0.15, color='black', linewidth=0.5, linestyle=':', alpha=0.4)
-ax[0,0].axhspan(0.15, 0, color='grey', alpha=0.3, lw=0)
+ax[0,0].axhline(y=-0.15, color='black', linewidth=0.5, linestyle=':', alpha=0.4)
+ax[0,0].axhspan(-0.15, 0, color='grey', alpha=0.3, lw=0)
 
-ax[1,0].axhspan(0, -2.9, color='xkcd:sand', alpha=0.15, lw=0)
+ax[1,0].axhspan(0, 2.9, color='xkcd:sand', alpha=0.15, lw=0)
 ax[1,0].axhline(y=0, color='black', linewidth=0.5, linestyle='--', alpha=0.4)
-ax[1,0].axhline(y=0.15, color='black', linewidth=0.5, linestyle=':', alpha=0.4)
-ax[1,0].axhspan(0.15, 0, color='grey', alpha=0.3, lw=0)
+ax[1,0].axhline(y=-0.15, color='black', linewidth=0.5, linestyle=':', alpha=0.4)
+ax[1,0].axhspan(-0.15, 0, color='grey', alpha=0.3, lw=0)
 
-ax[2,0].axhspan(0, -2.9, color='xkcd:sand', alpha=0.15, lw=0)
+ax[2,0].axhspan(0, 2.9, color='xkcd:sand', alpha=0.15, lw=0)
 ax[2,0].axhline(y=0, color='black', linewidth=0.5, linestyle='--', alpha=0.4)
-ax[2,0].axhline(y=0.15, color='black', linewidth=0.5, linestyle=':', alpha=0.4)
-ax[2,0].axhspan(0.15, 0, color='grey', alpha=0.3, lw=0)
+ax[2,0].axhline(y=-0.15, color='black', linewidth=0.5, linestyle=':', alpha=0.4)
+ax[2,0].axhspan(-0.15, 0, color='grey', alpha=0.3, lw=0)
 
-ax[0,1].axhspan(0, -2.9, color='xkcd:sand', alpha=0.15, lw=0)
+ax[0,1].axhspan(0, 2.9, color='xkcd:sand', alpha=0.15, lw=0)
 ax[0,1].axhline(y=0, color='black', linewidth=0.5, linestyle='--', alpha=0.4)
 
-ax[1,1].axhspan(0, -2.9, color='xkcd:sand', alpha=0.15, lw=0)
+ax[1,1].axhspan(0, 2.9, color='xkcd:sand', alpha=0.15, lw=0)
 ax[1,1].axhline(y=0, color='black', linewidth=0.5, linestyle='--', alpha=0.4)
 
-ax[2,1].axhspan(0, -2.9, color='xkcd:sand', alpha=0.15, lw=0)
+ax[2,1].axhspan(0, 2.9, color='xkcd:sand', alpha=0.15, lw=0)
 ax[2,1].axhline(y=0, color='black', linewidth=0.5, linestyle='--', alpha=0.4)
 #%%
 #Obtain handles and labels from ax1
@@ -115,22 +118,22 @@ for i in [line2, patch0, patch1, patch2, line1]:
     handles.append(i)  
 
 #Plot legend
-leg = fig.legend(handles=handles, 
-            bbox_to_anchor=(1.18, 0.6), 
-            fontsize='x-small', 
-            ncol=1,
-            title='Hours elapsed:',
-            title_fontsize='x-small')
+# leg = fig.legend(handles=handles, 
+#             bbox_to_anchor=(1.18, 0.6), 
+#             fontsize='x-small', 
+#             ncol=1,
+#             title='Hours elapsed:',
+#             title_fontsize='x-small')
 
-leg2 = fig.legend(handles=[line3, line4],
-            bbox_to_anchor=(1.18, 0.22), 
-            fontsize='x-small', 
-            ncol=1,
-            title='CaCO$_{3}$ polymorph:',
-            title_fontsize='x-small')
+# leg2 = fig.legend(handles=[line3, line4],
+#             bbox_to_anchor=(1.18, 0.22), 
+#             fontsize='x-small', 
+#             ncol=1,
+#             title='CaCO$_{3}$ polymorph:',
+#             title_fontsize='x-small')
 
-leg._legend_box.align = "left"
-leg2._legend_box.align = "left"
+# leg._legend_box.align = "left"
+# leg2._legend_box.align = "left"
 
 #%%
 #Axes CUVA
@@ -139,21 +142,21 @@ ax[0,0].xaxis.set_minor_locator(AutoMinorLocator(5))
 ax[0,0].yaxis.set_minor_locator(AutoMinorLocator(5))
 ax[0,0].grid(alpha=0.3, which='both')
 ax[0,0].set_xlim(7.2, 8)
-ax[0,0].set_ylim(-2.9, 1.15)
+ax[0,0].set_ylim(2.9, -1.15)
 
 ax[1,0].xaxis.set_major_locator(ticker.MultipleLocator(0.25))
 ax[1,0].xaxis.set_minor_locator(AutoMinorLocator(5))
 ax[1,0].yaxis.set_minor_locator(AutoMinorLocator(5))
 ax[1,0].grid(alpha=0.3, which='both')
 ax[1,0].set_xlim(0.15, 1.3)
-ax[1,0].set_ylim(-2.9, 1.15)
+ax[1,0].set_ylim(2.9, -1.15)
 
 ax[2,0].xaxis.set_major_locator(ticker.MultipleLocator(5))
 ax[2,0].xaxis.set_minor_locator(AutoMinorLocator(5))
 ax[2,0].yaxis.set_minor_locator(AutoMinorLocator(5))
 ax[2,0].grid(alpha=0.3, which='both')
 ax[2,0].set_xlim(-12, 8)
-ax[2,0].set_ylim(-2.9, 1.15)
+ax[2,0].set_ylim(2.9, -1.15)
 
 #Axes CUVB
 ax[0,1].xaxis.set_major_locator(ticker.MultipleLocator(0.25))
@@ -161,45 +164,46 @@ ax[0,1].xaxis.set_minor_locator(AutoMinorLocator(5))
 ax[0,1].yaxis.set_minor_locator(ticker.MultipleLocator(0.1))
 ax[0,1].grid(alpha=0.3, which='both')
 ax[0,1].set_xlim(7.2, 8)
-ax[0,1].set_ylim(-2.9, 1.15)
+ax[0,1].set_ylim(2.9, -1.15)
 
 ax[1,1].xaxis.set_major_locator(ticker.MultipleLocator(0.25))
 ax[1,1].xaxis.set_minor_locator(AutoMinorLocator(5))
 ax[1,1].yaxis.set_minor_locator(ticker.MultipleLocator(0.1))
 ax[1,1].grid(alpha=0.3, which='both')
 ax[1,1].set_xlim(0.15, 1.3)
-ax[1,1].set_ylim(-2.9, 1.15)
+ax[1,1].set_ylim(2.9, -1.15)
 
 ax[2,1].xaxis.set_major_locator(ticker.MultipleLocator(2.5))
 ax[2,1].xaxis.set_minor_locator(AutoMinorLocator(5))
 ax[2,1].yaxis.set_minor_locator(ticker.MultipleLocator(0.1))
 ax[2,1].grid(alpha=0.3, which='both')
 ax[2,1].set_xlim(-5, 1)
-ax[2,1].set_ylim(-2.9, 1.15)
+ax[2,1].set_ylim(2.9, -1.15)
 
 #Labels
 #fig.suptitle("pH microprofiles", fontsize=16)
-ax[0,0].title.set_text('Cuvette A')
-ax[0,1].title.set_text('Cuvette B')
+ax[0,0].title.set_text('CUV P')
+ax[0,1].title.set_text('CUV CTRL')
 
-ax[0,0].set_xlabel("$pH_{T}$")
-ax[0,1].set_xlabel("$pH_{T}$")
+ax[0,0].set_xlabel(r"pH$_{T}$")
+ax[0,1].set_xlabel(r"pH$_{T}$")
 ax[0,0].set_ylabel('Depth (cm)')
 ax[0,1].axes.yaxis.set_ticklabels([])
 
-ax[1,0].set_xlabel("$Ω_{ca}$")
-ax[1,1].set_xlabel("$Ω_{ca}$")
+ax[1,0].set_xlabel(r"Ω$_{ca}$")
+ax[1,1].set_xlabel(r"Ω$_{ca}$")
 ax[1,0].set_ylabel('Depth (cm)')
 ax[1,1].axes.yaxis.set_ticklabels([])
 
-ax[2,0].set_xlabel("CaCO$_3$ production \n($mol$ $m^{-3}$ $solid$ $yr^{-1}$)")
-ax[2,1].set_xlabel("CaCO$_3$ production \n($mol$ $m^{-3}$ $solid$ $yr^{-1}$)")
+ax[2,0].set_xlabel("CaCO$_3$ production \n(mol m$^{-3}$ solid yr$^{-1}$)")
+ax[2,1].set_xlabel("CaCO$_3$ production \n(mol m$^{-3}$ solid yr$^{-1}$)")
 ax[2,0].set_ylabel('Depth (cm)')
 ax[2,1].axes.yaxis.set_ticklabels([])
 
 #%%
-plt.tight_layout()
+fig.suptitle("RADI model", fontsize=16)
 
+plt.tight_layout()
 plt.subplots_adjust(wspace=None, hspace=None)
 plt.savefig("figures/RADI_profiles.png", bbox_inches='tight')
 plt.show()
