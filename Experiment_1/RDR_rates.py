@@ -2,6 +2,7 @@ import PyCO2SYS as pyco2
 from matplotlib import pyplot as plt
 import numpy as np
 from matplotlib.ticker import AutoMinorLocator
+import matplotlib.ticker as ticker
 
 #RDR experiment dissolution rate vs degree of undersaturation
 
@@ -134,7 +135,7 @@ RDR_three = pyco2.sys(**parms,
 
 
 #%% Plot saturation state against dissolution rate
-fig, ax1 = plt.subplots(dpi=300, figsize=(4.4, 3))
+fig, ax1 = plt.subplots(dpi=300, figsize=(4.3, 3))
 
 rates = [
     r1_dissolution, 
@@ -184,41 +185,53 @@ ax1.grid(alpha=0.3, which='both', zorder=0)
 
 #Add calcite dissolution rate law from Naviaux 2019
 sat_ca = np.linspace(0.25, 0.8, 20)
-ax1.plot(sat_ca, (10**(-10.8)*sat_ca**4.7*3.6e13), color='grey', linestyle='--')
-ax1.fill_between(x = sat_ca, 
-                 y1= (10**(-10.8-0.4)*sat_ca**(4.7+0.7)*3.6e13),
-                 y2= (10**(-10.8+0.4)*sat_ca**(4.7-0.7)*3.6e13),
-                 color='grey', alpha=0.3, edgecolor='none')
+ax1.plot(sat_ca, (10**(-10.8)*sat_ca**4.7*3.6e13), 
+         color='xkcd:grey', label = 'Calcite dissolution law (Naviaux, 2019)')
+#Uncertainty shading:
+# ax1.fill_between(x = sat_ca, 
+#                  y1= (10**(-10.8-0.4)*sat_ca**(4.7+0.7)*3.6e13),
+#                  y2= (10**(-10.8+0.4)*sat_ca**(4.7-0.7)*3.6e13),
+#                  color='grey', alpha=0.3, edgecolor='none')
 
-# #Add aragonite dissolution rate law from 
-# sat_ar = np.linspace(0.54, 0.83, 20)
-# ax2.plot(sat_ar, (0.013*sat_ar**1.46*4.163e6), color='red', linestyle='--')
-# # ax2.fill_between(x = sat_ca, 
-# #                  y1= (10**(-10.8-0.4)*sat_ca**(4.7+0.7)*3.6e13),
-# #                  y2= (10**(-10.8+0.4)*sat_ca**(4.7-0.7)*3.6e13),
-# #                  color='grey', alpha=0.4)
+#Add aragonite dissolution rate law from 
+sat_ar = np.linspace(0, 0.83, 50)
+ax2.plot(sat_ar, (0.013*(sat_ar**1.37)*51403), 
+         color='xkcd:grey', label = 'Aragonite dissolution law (Dong, 2019)', linestyle='--')
+#Uncertainty shading (only for rate order):
+# ax2.fill_between(x = sat_ar, 
+#                   y1= (0.013*(sat_ar**(1.37+0.18))*51403),
+#                   y2= (0.013*(sat_ar**(1.37-0.18))*51403),
+#                   color='red', alpha=0.3, edgecolor='none')
 
 #Labels
 labels = ['RDR1', 'RDR2', 'RDR3']
-ax1.text(sat_states[0]+0.075, rates[0]-20, labels[0], fontsize=5, ha='right', bbox=dict(facecolor=colors[0], alpha=0.3))
-ax1.text(sat_states[1]+0.008, rates[1]-20, labels[1], fontsize=5, ha='right', bbox=dict(facecolor=colors[1], alpha=0.3))
-ax1.text(sat_states[2]-0.01, rates[2]-20, labels[2], fontsize=5, ha='right', bbox=dict(facecolor=colors[2], alpha=0.3))
+ax1.text(sat_states[0]+0.085, 50, labels[0], fontsize=7.8, ha='right')
+ax1.text(sat_states[1]+0.019, 50, labels[1], fontsize=7.8, ha='right')
+ax1.text(sat_states[2]+0, 50, labels[2], fontsize=7.8, ha='right')
 
 ax1.set_xlabel(r'$(1-Ω_{ca})$')
 ax2.set_xlabel(r'$(1-Ω_{ar})$')
 ax1.set_ylabel('Dissolution rate ($μmol$ $m^{-2}$ $hr^{-1}$)', va='center', rotation='vertical')
 
-ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
-ax1.yaxis.set_minor_locator(AutoMinorLocator(4))
-ax2.xaxis.set_minor_locator(AutoMinorLocator(4))
+ax1.xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+ax1.xaxis.set_minor_locator(AutoMinorLocator(10))
 
-ax1.set_ylim(10, 150)
+ax2.xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+ax2.xaxis.set_minor_locator(AutoMinorLocator(10))
+
+ax1.yaxis.set_minor_locator(AutoMinorLocator(4))
+
+#Legend
+leg = fig.legend( 
+            bbox_to_anchor=(0.6, 0.825), 
+            fontsize='xx-small', 
+            ncol=1)
+
+ax1.set_ylim(0, 500)
 ax1.set_xlim(0.225, 0.8)
 ax2.set_xlim(0.53, 0.83)
-
 plt.tight_layout()
 plt.savefig("Figures/rate_vs_omega.png")
-
 
 #%%
 #Time between measurements
